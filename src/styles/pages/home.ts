@@ -2,10 +2,9 @@ import { styled } from '../styles';
 
 const HomeContainer = styled('main', {
   display: 'flex',
-  gap: '3rem',
   width: '100%',
   maxWidth: 'calc(100vw - ((100vw - 1180px)/2))',
-  minHeight: 600,
+  minHeight: 500,
   marginLeft: 'auto',
 });
 
@@ -15,7 +14,7 @@ const Product = styled('a', {
   alignItems: 'center',
   background: 'linear-gradient(180deg, #1ea483 0, #7465d4 100% )',
   borderRadius: 8,
-  padding: '0.25rem',
+  height: '100%',
   cursor: 'pointer',
   position: 'relative',
   overflow: 'hidden',
@@ -30,7 +29,7 @@ const Product = styled('a', {
     left: '0.25rem',
     right: '0.25rem',
     borderRadius: 6,
-    padding: '2rem',
+    padding: '1.5rem',
     backgroundColor: 'rgb(0, 0, 0, 0.6)',
     transform: 'translateY(110%)',
     opacity: 0,
@@ -40,7 +39,7 @@ const Product = styled('a', {
     justifyContent: 'space-between',
 
     strong: {
-      fontSize: '$lg',
+      fontSize: '$md',
     },
 
     span: {
