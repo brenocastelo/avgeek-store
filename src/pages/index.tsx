@@ -2,8 +2,6 @@ import Image from 'next/image';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 import { HomeContainer, Product } from '../styles/pages/home';
-import shirt1 from '../assets/shirts/shirt1.png';
-import shirt2 from '../assets/shirts/shirt2.png';
 
 import 'swiper/css';
 import { stripe } from '../lib/stripe';
@@ -39,7 +37,7 @@ export default function Home(props: Props) {
   );
 }
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
   const response = await stripe.products.list({
     expand: ['data.default_price'],
   });
