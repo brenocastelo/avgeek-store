@@ -6,6 +6,7 @@ import { HomeContainer, Product } from '../styles/pages/home';
 import 'swiper/css';
 import { stripe } from '../lib/stripe';
 import Stripe from 'stripe';
+import { formatPrice } from '../utils/format-price';
 
 type Props = {
   products: {
@@ -49,7 +50,8 @@ export async function getStaticProps() {
       id: product.id,
       name: product.name,
       imageUrl: product.images[0],
-      price: unit_amount ? unit_amount / 100 : 0,
+      // formatting price on static site generation, so tha it only runs once
+      price: formatPrice(unit_amount ? unit_amount / 100 : 0),
     };
   });
 
@@ -57,5 +59,6 @@ export async function getStaticProps() {
     props: {
       products,
     },
+    revalidate: 60 * 60 * 2, // 2 hours
   };
 }
