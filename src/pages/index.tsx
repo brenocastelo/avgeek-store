@@ -6,62 +6,58 @@ import shirt1 from '../assets/shirts/shirt1.png';
 import shirt2 from '../assets/shirts/shirt2.png';
 
 import 'swiper/css';
+import { stripe } from '../lib/stripe';
+import Stripe from 'stripe';
 
-export default function Home() {
+type Props = {
+  products: {
+    id: string;
+    name: string;
+    imageUrl: string;
+    price: number;
+  }[];
+};
+
+export default function Home(props: Props) {
   return (
     <HomeContainer>
       <Swiper slidesPerView={3} spaceBetween={48}>
-        <SwiperSlide>
-          <Product>
-            <Image src={shirt1} alt="" width={480} height={420} />
+        {props.products.map((product) => (
+          <SwiperSlide key={product.id}>
+            <Product>
+              <Image src={product.imageUrl} alt="" width={320} height={320} />
 
-            <footer>
-              <strong>Camiseta Beyond the Limits</strong>
-              <span>R$ 79,90</span>
-            </footer>
-          </Product>
-        </SwiperSlide>
-        <SwiperSlide>
-          <Product>
-            <Image src={shirt2} alt="" width={520} height={480} />
-
-            <footer>
-              <strong>Camiseta Beyond the Limits</strong>
-              <span>R$ 79,90</span>
-            </footer>
-          </Product>
-        </SwiperSlide>
-        <SwiperSlide>
-          <Product>
-            <Image src={shirt2} alt="" width={520} height={480} />
-
-            <footer>
-              <strong>Camiseta Beyond the Limits</strong>
-              <span>R$ 79,90</span>
-            </footer>
-          </Product>
-        </SwiperSlide>
-        <SwiperSlide>
-          <Product>
-            <Image src={shirt2} alt="" width={520} height={480} />
-
-            <footer>
-              <strong>Camiseta Beyond the Limits</strong>
-              <span>R$ 79,90</span>
-            </footer>
-          </Product>
-        </SwiperSlide>
-        <SwiperSlide>
-          <Product>
-            <Image src={shirt2} alt="" width={520} height={480} />
-
-            <footer>
-              <strong>Camiseta Beyond the Limits</strong>
-              <span>R$ 79,90</span>
-            </footer>
-          </Product>
-        </SwiperSlide>
+              <footer>
+                <strong>{product.name}</strong>
+                <span>{product.price}</span>
+              </footer>
+            </Product>
+          </SwiperSlide>
+        ))}
       </Swiper>
     </HomeContainer>
   );
+}
+
+export async function getServerSideProps() {
+  const response = await stripe.products.list({
+    expand: ['data.default_price'],
+  });
+
+  const products = response.data.map((product) => {
+    const { unit_amount } = product.default_price as Stripe.Price;
+
+    return {
+      id: product.id,
+      name: product.name,
+      imageUrl: product.images[0],
+      price: unit_amount ? unit_amount / 100 : 0,
+    };
+  });
+
+  return {
+    props: {
+      products,
+    },
+  };
 }
