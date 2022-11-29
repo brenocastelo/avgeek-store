@@ -7,6 +7,7 @@ import 'swiper/css';
 import { stripe } from '../lib/stripe';
 import Stripe from 'stripe';
 import { formatPrice } from '../utils/format-price';
+import Link from 'next/link';
 
 type Props = {
   products: {
@@ -23,14 +24,16 @@ export default function Home(props: Props) {
       <Swiper slidesPerView={3} spaceBetween={48}>
         {props.products.map((product) => (
           <SwiperSlide key={product.id}>
-            <Product>
-              <Image src={product.imageUrl} alt="" width={320} height={320} />
+            <Link href={`/product/${product.id}`} legacyBehavior passHref>
+              <Product>
+                <Image src={product.imageUrl} alt="" width={320} height={320} />
 
-              <footer>
-                <strong>{product.name}</strong>
-                <span>{product.price}</span>
-              </footer>
-            </Product>
+                <footer>
+                  <strong>{product.name}</strong>
+                  <span>{product.price}</span>
+                </footer>
+              </Product>
+            </Link>
           </SwiperSlide>
         ))}
       </Swiper>

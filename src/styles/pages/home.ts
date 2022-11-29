@@ -34,6 +34,7 @@ const Product = styled('a', {
     transform: 'translateY(110%)',
     opacity: 0,
     transition: 'all 0.2s ease-in-out',
+    color: '$gray100',
 
     display: 'flex',
     justifyContent: 'space-between',
