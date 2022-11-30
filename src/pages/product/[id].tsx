@@ -23,11 +23,28 @@ type Props = {
 
 export default function Product({ product }: Props) {
   async function checkout() {
-    await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/checkout`, {
-      method: 'POST',
-      body: JSON.stringify({ priceId: product.priceId }),
-    });
-    console.log({ priceId: product.priceId });
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_APP_URL}/api/checkout`,
+        {
+          method: 'POST',
+          body: JSON.stringify({ priceId: product.priceId }),
+        }
+      );
+      const { checkoutUrl } = await response.json();
+      console.log({ checkout });
+
+      /**
+       * When redirecting to an external url, use window.location.href.
+       * For internal redirects, use useRouter push method
+       */
+      window.location.href = checkoutUrl;
+    } catch (error) {
+      // NIT: send error for an observability tool (datadog / sentry)
+      alert(
+        'Some error occurred on the checkout process. Please try again later.'
+      );
+    }
   }
 
   return (
@@ -40,7 +57,9 @@ export default function Product({ product }: Props) {
         <span>{product.price}</span>
         <p>{product.description}</p>
 
-        <button onClick={checkout}>Comprar agora</button>
+        <button type="button" onClick={checkout}>
+          Comprar agora
+        </button>
       </DetailsContainer>
     </ProductContainer>
   );

@@ -16,5 +16,5 @@ export default async function handler(
     line_items: [{ price: priceId, quantity: 1 }],
   });
 
-  return response.status(201).json({ checkoutSession: checkoutSession.url });
+  return response.status(201).json({ checkoutUrl: checkoutSession.url });
 }
