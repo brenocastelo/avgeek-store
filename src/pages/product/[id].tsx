@@ -17,10 +17,19 @@ type Props = {
     imageUrl: string;
     price: string;
     description: string;
+    priceId: string;
   };
 };
 
 export default function Product({ product }: Props) {
+  async function checkout() {
+    await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/checkout`, {
+      method: 'POST',
+      body: JSON.stringify({ priceId: product.priceId }),
+    });
+    console.log({ priceId: product.priceId });
+  }
+
   return (
     <ProductContainer>
       <ImageContainer>
@@ -31,7 +40,7 @@ export default function Product({ product }: Props) {
         <span>{product.price}</span>
         <p>{product.description}</p>
 
-        <button>Comprar agora</button>
+        <button onClick={checkout}>Comprar agora</button>
       </DetailsContainer>
     </ProductContainer>
   );
@@ -61,7 +70,7 @@ export async function getStaticProps({
     expand: ['default_price'],
   });
 
-  const { unit_amount } = product.default_price as Stripe.Price;
+  const defaultPrice = product.default_price as Stripe.Price;
 
   return {
     props: {
@@ -70,7 +79,10 @@ export async function getStaticProps({
         name: product.name,
         imageUrl: product.images[0],
         // formatting price on static site generation, so tha it only runs once
-        price: formatPrice(unit_amount ? unit_amount / 100 : 0),
+        price: formatPrice(
+          defaultPrice.unit_amount ? defaultPrice.unit_amount / 100 : 0
+        ),
+        priceId: defaultPrice.id,
       },
       revalidate: 60 * 60 * 1,
     },

@@ -24,7 +24,12 @@ export default function Home(props: Props) {
       <Swiper slidesPerView={3} spaceBetween={48}>
         {props.products.map((product) => (
           <SwiperSlide key={product.id}>
-            <Link href={`/product/${product.id}`} legacyBehavior passHref>
+            <Link
+              href={`/product/${product.id}`}
+              legacyBehavior
+              passHref
+              prefetch={false}
+            >
               <Product>
                 <Image src={product.imageUrl} alt="" width={320} height={320} />
 
