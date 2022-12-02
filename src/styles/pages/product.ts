@@ -56,8 +56,13 @@ const DetailsContainer = styled('div', {
     borderRadius: 8,
     cursor: 'pointer',
 
-    '&:hover': {
+    '&:not(disabled):hover': {
       backgroundColor: '$green400',
+    },
+
+    '&:disabled': {
+      cursor: 'not-allowed',
+      opacity: 0.7,
     },
   },
 });

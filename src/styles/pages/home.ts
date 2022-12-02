@@ -8,7 +8,7 @@ const HomeContainer = styled('main', {
   marginLeft: 'auto',
 });
 
-const Product = styled('a', {
+const Product = styled('div', {
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',

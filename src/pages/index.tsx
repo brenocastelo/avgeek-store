@@ -31,7 +31,7 @@ export default function Home(props: Props) {
               prefetch={false}
             >
               <Product>
-                <Image src={product.imageUrl} alt="" width={320} height={320} />
+                <Image src={product.imageUrl} alt="" width={256} height={261} />
 
                 <footer>
                   <strong>{product.name}</strong>

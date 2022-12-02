@@ -1,6 +1,7 @@
-import { GetStaticProps, GetStaticPropsContext } from 'next';
+import { GetStaticPropsContext } from 'next';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
+import { useState } from 'react';
 import Stripe from 'stripe';
 import { stripe } from '../../lib/stripe';
 import {
@@ -22,8 +23,11 @@ type Props = {
 };
 
 export default function Product({ product }: Props) {
+  const [isCreatingCheckout, setIsCreatingCheckout] = useState(false);
+
   async function checkout() {
     try {
+      setIsCreatingCheckout(true);
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_APP_URL}/api/checkout`,
         {
@@ -32,7 +36,6 @@ export default function Product({ product }: Props) {
         }
       );
       const { checkoutUrl } = await response.json();
-      console.log({ checkout });
 
       /**
        * When redirecting to an external url, use window.location.href.
@@ -40,6 +43,7 @@ export default function Product({ product }: Props) {
        */
       window.location.href = checkoutUrl;
     } catch (error) {
+      setIsCreatingCheckout(false);
       // NIT: send error for an observability tool (datadog / sentry)
       alert(
         'Some error occurred on the checkout process. Please try again later.'
@@ -57,7 +61,7 @@ export default function Product({ product }: Props) {
         <span>{product.price}</span>
         <p>{product.description}</p>
 
-        <button type="button" onClick={checkout}>
+        <button disabled={isCreatingCheckout} type="button" onClick={checkout}>
           Comprar agora
         </button>
       </DetailsContainer>
