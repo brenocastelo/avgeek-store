@@ -1,4 +1,5 @@
 import { GetStaticPropsContext } from 'next';
+import Head from 'next/head';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
@@ -52,20 +53,29 @@ export default function Product({ product }: Props) {
   }
 
   return (
-    <ProductContainer>
-      <ImageContainer>
-        <Image src={product.imageUrl} alt="" width={320} height={320} />
-      </ImageContainer>
-      <DetailsContainer>
-        <h1>{product.name}</h1>
-        <span>{product.price}</span>
-        <p>{product.description}</p>
+    <>
+      <Head>
+        <title>{product.name} | AvGeek Store</title>
+      </Head>
+      <ProductContainer>
+        <ImageContainer>
+          <Image src={product.imageUrl} alt="" width={320} height={320} />
+        </ImageContainer>
+        <DetailsContainer>
+          <h1>{product.name}</h1>
+          <span>{product.price}</span>
+          <p>{product.description}</p>
 
-        <button disabled={isCreatingCheckout} type="button" onClick={checkout}>
-          Comprar agora
-        </button>
-      </DetailsContainer>
-    </ProductContainer>
+          <button
+            disabled={isCreatingCheckout}
+            type="button"
+            onClick={checkout}
+          >
+            Comprar agora
+          </button>
+        </DetailsContainer>
+      </ProductContainer>
+    </>
   );
 }
 

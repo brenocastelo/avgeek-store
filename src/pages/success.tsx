@@ -3,6 +3,7 @@ import {
   GetServerSidePropsContext,
   GetServerSidePropsResult,
 } from 'next';
+import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
 import Stripe from 'stripe';
@@ -19,20 +20,28 @@ type Props = {
 
 export default function Success({ customerName, product }: Props) {
   return (
-    <SuccessContainer>
-      <h1>Compra efetuada!</h1>
-      <ImageContainer>
-        <Image src={product.imageUrl} height={80} width={70} alt="" />
-      </ImageContainer>
+    <>
+      <Head>
+        <title>Compra efetuada! | AvGeek Store</title>
 
-      <p>
-        Uhuul <strong>{customerName}</strong>, sua {''}
-        <strong>{product.name}</strong> {''}
-        já está a caminho da sua casa.
-      </p>
+        {/* This page won't be idexed by crawlers */}
+        <meta name="robots" content="noindex" />
+      </Head>
+      <SuccessContainer>
+        <h1>Compra efetuada!</h1>
+        <ImageContainer>
+          <Image src={product.imageUrl} height={80} width={70} alt="" />
+        </ImageContainer>
 
-      <Link href="/">Voltar ao catálogo</Link>
-    </SuccessContainer>
+        <p>
+          Uhuul <strong>{customerName}</strong>, sua {''}
+          <strong>{product.name}</strong> {''}
+          já está a caminho da sua casa.
+        </p>
+
+        <Link href="/">Voltar ao catálogo</Link>
+      </SuccessContainer>
+    </>
   );
 }
 

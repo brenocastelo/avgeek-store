@@ -8,6 +8,7 @@ import { stripe } from '../lib/stripe';
 import Stripe from 'stripe';
 import { formatPrice } from '../utils/format-price';
 import Link from 'next/link';
+import Head from 'next/head';
 
 type Props = {
   products: {
@@ -20,29 +21,40 @@ type Props = {
 
 export default function Home(props: Props) {
   return (
-    <HomeContainer>
-      <Swiper slidesPerView={3} spaceBetween={48}>
-        {props.products.map((product) => (
-          <SwiperSlide key={product.id}>
-            <Link
-              href={`/product/${product.id}`}
-              legacyBehavior
-              passHref
-              prefetch={false}
-            >
-              <Product>
-                <Image src={product.imageUrl} alt="" width={256} height={261} />
+    <>
+      <Head>
+        <title>Home | AvGeek Store</title>
+      </Head>
 
-                <footer>
-                  <strong>{product.name}</strong>
-                  <span>{product.price}</span>
-                </footer>
-              </Product>
-            </Link>
-          </SwiperSlide>
-        ))}
-      </Swiper>
-    </HomeContainer>
+      <HomeContainer>
+        <Swiper slidesPerView={3} spaceBetween={48}>
+          {props.products.map((product) => (
+            <SwiperSlide key={product.id}>
+              <Link
+                href={`/product/${product.id}`}
+                legacyBehavior
+                passHref
+                prefetch={false}
+              >
+                <Product>
+                  <Image
+                    src={product.imageUrl}
+                    alt=""
+                    width={256}
+                    height={261}
+                  />
+
+                  <footer>
+                    <strong>{product.name}</strong>
+                    <span>{product.price}</span>
+                  </footer>
+                </Product>
+              </Link>
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </HomeContainer>
+    </>
   );
 }
 
