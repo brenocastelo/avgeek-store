@@ -29,7 +29,7 @@ const Product = styled('div', {
     left: '0.25rem',
     right: '0.25rem',
     borderRadius: 6,
-    padding: '1.5rem',
+    padding: '1rem',
     backgroundColor: 'rgb(0, 0, 0, 0.6)',
     transform: 'translateY(110%)',
     opacity: 0,
@@ -38,6 +38,7 @@ const Product = styled('div', {
 
     display: 'flex',
     justifyContent: 'space-between',
+    alignItems: 'center',
 
     strong: {
       fontSize: '$md',
@@ -46,6 +47,21 @@ const Product = styled('div', {
     span: {
       fontWeight: 'bold',
       color: '$green400',
+    },
+
+    button: {
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: '$green700',
+      padding: '0.75rem',
+      border: 0,
+      borderRadius: 6,
+      cursor: 'pointer',
+
+      '&:hover': {
+        backgroundColor: '$green400',
+      },
     },
   },
 

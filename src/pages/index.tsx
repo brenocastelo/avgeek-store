@@ -9,6 +9,7 @@ import Stripe from 'stripe';
 import { formatPrice } from '../utils/format-price';
 import Link from 'next/link';
 import Head from 'next/head';
+import bag from '../assets/bag.svg';
 
 type Props = {
   products: {
@@ -47,6 +48,10 @@ export default function Home(props: Props) {
                   <footer>
                     <strong>{product.name}</strong>
                     <span>{product.price}</span>
+
+                    <button disabled>
+                      <Image src={bag} alt="Bag icon" height={24} width={24} />
+                    </button>
                   </footer>
                 </Product>
               </Link>

@@ -4,20 +4,20 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import Stripe from 'stripe';
+import { useCart } from '../../context/context';
 import { stripe } from '../../lib/stripe';
 import {
   DetailsContainer,
   ImageContainer,
   ProductContainer,
 } from '../../styles/pages/product';
-import { formatPrice } from '../../utils/format-price';
 
 type Props = {
   product: {
     id: string;
     name: string;
     imageUrl: string;
-    price: string;
+    price: number;
     description: string;
     priceId: string;
   };
@@ -25,6 +25,8 @@ type Props = {
 
 export default function Product({ product }: Props) {
   const [isCreatingCheckout, setIsCreatingCheckout] = useState(false);
+
+  const { addProduct } = useCart();
 
   async function checkout() {
     try {
@@ -69,9 +71,9 @@ export default function Product({ product }: Props) {
           <button
             disabled={isCreatingCheckout}
             type="button"
-            onClick={checkout}
+            onClick={() => addProduct(product)}
           >
-            Comprar agora
+            Colocar na sacola
           </button>
         </DetailsContainer>
       </ProductContainer>
@@ -112,9 +114,7 @@ export async function getStaticProps({
         name: product.name,
         imageUrl: product.images[0],
         // formatting price on static site generation, so tha it only runs once
-        price: formatPrice(
-          defaultPrice.unit_amount ? defaultPrice.unit_amount / 100 : 0
-        ),
+        price: defaultPrice.unit_amount ? defaultPrice.unit_amount / 100 : 0,
         priceId: defaultPrice.id,
       },
       revalidate: 60 * 60 * 1,
